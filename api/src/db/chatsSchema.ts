@@ -35,6 +35,8 @@ export const chatsRelations = relations(chatsTable, ({ one }) => ({
   }),
 }));
 
-export const createChatSchema = createInsertSchema(chatsTable);
+export const createChatSchema = createInsertSchema(chatsTable).pick({
+  message: true,
+});
 
 export const updateChatSchema = createUpdateSchema(chatsTable);
