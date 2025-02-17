@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { chatsTable } from "../../db/chatsSchema";
+import { postsTable } from "../../db/postsSchema";
+import { createPostsSchema } from "../../db/postsSchema";
 import { db } from "../../db/index";
 import { eq, and, gt } from "drizzle-orm";
 
@@ -11,7 +13,15 @@ export async function createNewChat(req: Request, res: Response) {
       .insert(chatsTable)
       .values(req.cleanBody)
       .returning();
-    res.status(200).json(chat);
+
+    const newPost = {
+      content: "Do you know how to use Cheerful Prism?",
+      user_id: req.userId,
+      chat_id: chat.id,
+    };
+
+    const [post] = await db.insert(postsTable).values(newPost).returning();
+    res.status(200).json({ chat, post });
   } catch (er) {
     res.status(500).json(er);
   }
