@@ -21,6 +21,7 @@ export default function verifyToken() {
         return;
       }
       console.log(decoded);
+      req.userId = decoded.id;
       next();
     } catch (er) {
       res.status(500).json({ error: "Something went wrong" });
