@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { chatsTable } from "../../db/chatsSchema";
 import { db } from "../../db/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, gt } from "drizzle-orm";
 
 export async function createNewChat(req: Request, res: Response) {
   try {
@@ -21,15 +21,25 @@ export async function listChats(req: Request, res: Response) {
   try {
     const thread_id = req.params.thread_id;
     const user_id = req.userId;
+    const since = (req.query.since ?? "") as string;
+
+    const conditions = [
+      eq(chatsTable.thread_id, thread_id),
+      eq(chatsTable.user_id, user_id),
+    ];
+
+    if (since) {
+      let dateSince = new Date(since);
+      // Ensure dateSince is a valid date
+      if (!isNaN(dateSince.getTime())) {
+        conditions.push(gt(chatsTable.created_at, dateSince));
+      }
+    }
+
     const chats = await db
       .select()
       .from(chatsTable)
-      .where(
-        and(
-          eq(chatsTable.thread_id, thread_id),
-          eq(chatsTable.user_id, user_id),
-        )
-      );
+      .where(and(...conditions));
     res.status(200).json(chats);
   } catch (er) {
     res.status(500).json(er);
