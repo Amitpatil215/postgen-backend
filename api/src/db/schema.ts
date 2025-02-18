@@ -3,6 +3,8 @@ import { usersTable, usersRelations } from "./usersSchema";
 import { chatsTable, chatsRelations } from "./chatsSchema";
 import { chatThreadsTable, chatThreadsRelations } from "./chatThreadsSchema";
 import { postsTable, postsRelations } from "./postsSchema";
+import { personasTable, personasRelations } from "./personasSchema";
+import { personasPostsExamplesTable } from "./personasPostsExamplesSchema";
 
 export {
   usersTable,
@@ -14,4 +16,7 @@ export {
   chatsRelations,
   chatThreadsRelations,
   postsRelations,
+  personasTable,
+  personasRelations,
+  personasPostsExamplesTable,
 };

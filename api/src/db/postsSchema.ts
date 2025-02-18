@@ -9,7 +9,7 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
-import { usersTable, chatsTable } from "./schema";
+import { usersTable, chatsTable, personasTable } from "./schema";
 import { relations } from "drizzle-orm";
 
 export const postsTable = pgTable("posts", {
@@ -21,9 +21,8 @@ export const postsTable = pgTable("posts", {
   user_id: uuid()
     .notNull()
     .references(() => usersTable.id),
-  chat_id: uuid()
-    .notNull()
-    .references(() => chatsTable.id),
+  chat_id: uuid().references(() => chatsTable.id),
+  persona_id: uuid().references(() => personasTable.id),
   created_at: timestamp().defaultNow().notNull(),
   updated_at: timestamp().defaultNow().notNull(),
 });
@@ -36,6 +35,10 @@ export const postsRelations = relations(postsTable, ({ one }) => ({
   chat: one(chatsTable, {
     fields: [postsTable.chat_id],
     references: [chatsTable.id],
+  }),
+  persona: one(personasTable, {
+    fields: [postsTable.persona_id],
+    references: [personasTable.id],
   }),
 }));
 
