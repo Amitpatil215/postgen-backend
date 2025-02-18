@@ -15,6 +15,13 @@
       "when": 1739910539398,
       "tag": "0001_round_sersi",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739912984995,
+      "tag": "0002_rare_forge",
+      "breakpoints": true
     }
   ]
 }

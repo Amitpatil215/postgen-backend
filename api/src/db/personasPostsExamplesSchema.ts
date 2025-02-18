@@ -13,7 +13,7 @@ import { personasTable, postsTable, usersTable } from "./schema";
 import { Many, relations } from "drizzle-orm";
 
 // Personas table definition
-export const personasPostsExamplesTable = pgTable("persona_examples", {
+export const personasPostsExamplesTable = pgTable("persona_posts_examples", {
   name: text().notNull(),
   persona_id: uuid()
     .notNull()

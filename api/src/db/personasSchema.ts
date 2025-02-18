@@ -40,9 +40,10 @@ export const personasRelations = relations(personasTable, ({ one, many }) => ({
     fields: [personasTable.user_id],
     references: [usersTable.id],
   }),
-  postsExamples: many(personasPostsExamplesTable),
 }));
 
 // Schemas for insert and update operations
-export const createPersonasSchema = createInsertSchema(personasTable);
+export const createPersonasSchema = createInsertSchema(personasTable).omit({
+  user_id: true,
+});
 export const updatePersonasSchema = createUpdateSchema(personasTable);
